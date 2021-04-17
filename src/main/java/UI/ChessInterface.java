@@ -14,30 +14,27 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import javax.print.DocFlavor;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class ChessInterface extends Application {
+public class ChessInterface {
     private ChessEngine chessEngine = new ChessEngine();
     private Stage stage;
 
-    @Override
-    public void start(Stage stage) {
+    public ChessInterface(Stage stage) {
         this.stage = stage;
 
-        updateUI("White Players turn", 790, 900);
+        updateUI("White Players turn", 790, 790);
     }
 
     private void updateUI(String player, int width, int height) {
-        Label playerTurn = new Label(player);
-        playerTurn.setFont(new Font(50));
-        playerTurn.setTranslateX(210);
-        playerTurn.setTranslateY(825);
 
         Group board = updateBoard();
-        Line border = getBorder();
         Group window = new Group();
-        window.getChildren().addAll(board, border, playerTurn);
+        window.getChildren().addAll(board);
 
         Scene scene = new Scene(window, width, height);
         scene.setFill(Color.web("cebb9e", 1));
@@ -133,9 +130,11 @@ public class ChessInterface extends Application {
     private ImageView getImageOfEmptyPiece(char colour) {
         ImageView piece;
         if (colour == 'b') {
-            piece = new ImageView(new Image(new File("src/main/resources/Tiles/Black.png").toURI().toString()));
+//            piece = new ImageView(new Image(new File("src/main/resources/Tiles/Black.png").toURI().toString()));
+            piece = new ImageView(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("Tiles/Black.png"))));
         } else {
-            piece = new ImageView(new Image(new File("src/main/resources/Tiles/White.png").toURI().toString()));
+//            piece = new ImageView(new Image(new File("src/main/resources/Tiles/White.png").toURI().toString()));
+            piece = new ImageView(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("Tiles/White.png"))));
         }
         piece.setFitHeight(100);
         piece.setFitWidth(100);
@@ -162,7 +161,7 @@ public class ChessInterface extends Application {
             if (currentPlayer.isInCheck()) {
                 if (chessEngine.isCurrentPlayerInCheckMate()) {
                     chessEngine.newGame();
-                    updateUI(chessEngine.getCurrentPlayer().toString(), 800, 910);
+                    updateUI(chessEngine.getCurrentPlayer().toString(), 800, 800);
                 }
             }
             for (int[] move : moves) {
@@ -170,9 +169,9 @@ public class ChessInterface extends Application {
                 if (move[0] == row && move[1] == col) {
                     //move piece and end turn
                     chessEngine.movePiece(currentPlayer.getSelectedPiece(), move);
-                    updateUI(chessEngine.getCurrentPlayer().toString(), 800, 910);
+                    updateUI(chessEngine.getCurrentPlayer().toString(), 800, 800);
                     chessEngine.endTurn();
-                    updateUI(chessEngine.getCurrentPlayer().toString(), 800, 910);
+                    updateUI(chessEngine.getCurrentPlayer().toString(), 800, 800);
                     chessEngine.inspectForCheck();
                 }
             }
@@ -181,11 +180,15 @@ public class ChessInterface extends Application {
 
     private ImageView getImageOfPiece(char colour, String imageName) {
         ImageView piece;
+        InputStream image;
         if (colour == 'b') {
-            piece = new ImageView(new Image(new File("src/main/resources/Piece Icons/Black/" + imageName + ".png").toURI().toString()));
+//            piece = new ImageView(new Image(new File("src/main/resources/Piece Icons/Black/" + imageName + ".png").toURI().toString()));
+            image = getClass().getClassLoader().getResourceAsStream("Piece Icons/Black/" + imageName + ".png");
         } else {
-            piece = new ImageView(new Image(new File("src/main/resources/Piece Icons/White/" + imageName + ".png").toURI().toString()));
+//            piece = new ImageView(new Image(new File("src/main/resources/Piece Icons/White/" + imageName + ".png").toURI().toString()));
+            image = getClass().getClassLoader().getResourceAsStream("Piece Icons/White/" + imageName + ".png");
         }
+        piece = new ImageView(new Image(image));
         piece.setFitHeight(100);
         piece.setFitWidth(100);
         return piece;
