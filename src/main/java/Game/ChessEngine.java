@@ -59,4 +59,14 @@ public class ChessEngine {
             currentPlayer.check();
         }
     }
+
+    public boolean isCurrentPlayerInCheckMate() {
+        return board.isInCheckMate(currentPlayer);
+    }
+
+    public void newGame() {
+        board = new Board();
+        players = new Player[]{new Player('w'), new Player('b')};
+        currentPlayer = players[0];
+    }
 }

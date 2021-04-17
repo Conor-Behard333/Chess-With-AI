@@ -127,10 +127,24 @@ public class Board {
 
 
         for (int[] move : allMoves) {
-            if (move[0] == kingLocation[0] && move[1] == kingLocation[1]){
+            if (move[0] == kingLocation[0] && move[1] == kingLocation[1]) {
                 return true;
             }
         }
         return false;
+    }
+
+    public boolean isInCheckMate(Player currentPlayer) {
+        ArrayList<int[]> allMoves = new ArrayList<>();
+        char playerColour = currentPlayer.getColour();
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                //get all the possible moves of the opponent
+                if (board[i][j].getColour() == playerColour && !Piece.isEmptyPiece(board[i][j].getLabel())) {
+                    allMoves.addAll(board[i][j].generateMovesForPiece(board, true));
+                }
+            }
+        }
+        return allMoves.isEmpty();
     }
 }

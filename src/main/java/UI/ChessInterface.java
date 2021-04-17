@@ -5,7 +5,6 @@ import Game.Piece;
 import Game.Player;
 import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -17,7 +16,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class ChessInterface extends Application {
     private ChessEngine chessEngine = new ChessEngine();
@@ -165,8 +163,11 @@ public class ChessInterface extends Application {
         } else {
             //generate valid moves for the piece the player selected
             ArrayList<int[]> moves = currentPlayer.getSelectedPiece().generateMovesForPiece(chessEngine.getBoard(), true);
-            if(moves.size() == 0 && currentPlayer.isInCheck()){
-                System.exit(0);
+            if (currentPlayer.isInCheck()) {
+                if (chessEngine.isCurrentPlayerInCheckMate()) {
+                    chessEngine.newGame();
+                    updateUI(chessEngine.getCurrentPlayer().toString(), 800, 910);
+                }
             }
             for (int[] move : moves) {
                 System.out.println(Arrays.toString(move));
