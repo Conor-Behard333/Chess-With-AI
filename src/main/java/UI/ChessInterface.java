@@ -27,7 +27,7 @@ public class ChessInterface {
     public ChessInterface(Stage stage) {
         this.stage = stage;
 
-        updateUI("White Players turn", 790, 790);
+        updateUI("White Players turn", 800, 800);
     }
 
     private void updateUI(String player, int width, int height) {
