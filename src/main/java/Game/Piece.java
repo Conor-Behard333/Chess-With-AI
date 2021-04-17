@@ -5,16 +5,18 @@ import PieceType.Empty;
 import java.util.ArrayList;
 
 public class Piece {
+    protected final int VALUE;
     protected final char label;
     protected final char colour;
     protected int row;
     protected int col;
 
-    public Piece(char label, int[] location) {
+    public Piece(char label, int[] location, int value) {
         this.label = label;
         colour = getColourOfLabel(label, location);
         row = location[0];
         col = location[1];
+        VALUE = value;
     }
 
     public static char getColourOfLabel(char label, int[] location) {
@@ -70,7 +72,7 @@ public class Piece {
         this.col = col;
     }
 
-    public ArrayList<int[]> generateMovesForPiece(Piece[][] board, boolean isInCheck) {
+    public ArrayList<int[]> generateMoves(Piece[][] board, boolean isInCheck) {
         return null;
     }
 
@@ -105,23 +107,23 @@ public class Piece {
 
     protected void removeInvalidMoves(Piece[][] boardArray, ArrayList<int[]> moves, Piece piece) {
         //if move does not prevent check then remove it
-        int tmpRow = row;
-        int tmpCol = col;
+        int tmpRow = piece.getRow();
+        int tmpCol = piece.getCol();
         ArrayList<int[]> movesToDelete = new ArrayList<>();
         for (int[] move : moves) {
             //move piece
-            boardArray[row][col] = new Empty('8', new int[]{row, col});
+            boardArray[piece.getRow()][piece.getCol()] = new Empty('8', new int[]{piece.getRow(), piece.getCol()});
             boardArray[move[0]][move[1]] = piece;
-            this.setRow(move[0]);
-            this.setCol(move[1]);
+            piece.setRow(move[0]);
+            piece.setCol(move[1]);
             //if still in check remove the move
             if (Board.isInCheck(colour, boardArray)) {
                 movesToDelete.add(move);
             }
-            boardArray[row][col] = new Empty('8', new int[]{row, col});
+            boardArray[piece.getRow()][piece.getCol()] = new Empty('8', new int[]{piece.getRow(), piece.getCol()});
             boardArray[tmpRow][tmpCol] = piece;
-            this.setRow(tmpRow);
-            this.setCol(tmpCol);
+            piece.setRow(tmpRow);
+            piece.setCol(tmpCol);
         }
 
         for (int[] moveToDelete : movesToDelete) {

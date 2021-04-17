@@ -10,14 +10,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ChessInterface extends Application {
     private ChessEngine chessEngine = new ChessEngine();
@@ -160,7 +158,7 @@ public class ChessInterface extends Application {
             }
         } else {
             //generate valid moves for the piece the player selected
-            ArrayList<int[]> moves = currentPlayer.getSelectedPiece().generateMovesForPiece(chessEngine.getBoard(), true);
+            ArrayList<int[]> moves = currentPlayer.getSelectedPiece().generateMoves(chessEngine.getBoard(), true);
             if (currentPlayer.isInCheck()) {
                 if (chessEngine.isCurrentPlayerInCheckMate()) {
                     chessEngine.newGame();
@@ -170,11 +168,12 @@ public class ChessInterface extends Application {
             for (int[] move : moves) {
                 //if the location is in the valid move list then move the piece and end turn
                 if (move[0] == row && move[1] == col) {
-                    //move piece
+                    //move piece and end turn
                     chessEngine.movePiece(currentPlayer.getSelectedPiece(), move);
-                    chessEngine.endTurn();
-                    chessEngine.inspectForCheck();
                     updateUI(chessEngine.getCurrentPlayer().toString(), 800, 910);
+                    chessEngine.endTurn();
+                    updateUI(chessEngine.getCurrentPlayer().toString(), 800, 910);
+                    chessEngine.inspectForCheck();
                 }
             }
         }

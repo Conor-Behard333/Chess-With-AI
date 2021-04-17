@@ -1,6 +1,5 @@
 package PieceType;
 
-import Game.Board;
 import Game.Piece;
 
 import java.util.ArrayList;
@@ -8,7 +7,7 @@ import java.util.Arrays;
 
 public class Pawn extends Piece {
     public Pawn(char colour, int[] location) {
-        super(colour, location);
+        super(colour, location, 10);
     }
 
     @Override
@@ -17,30 +16,25 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public ArrayList<int[]> generateMovesForPiece(Piece[][] board, boolean isInCheck) {
+    public ArrayList<int[]> generateMoves(Piece[][] board, boolean isInCheck) {
         Piece[][] boardArray = Arrays.stream(board).map(Piece[]::clone).toArray(Piece[][]::new);
         ArrayList<int[]> moves = new ArrayList<>();
         if (colour == 'w') {
             if (row == 6) {
                 //can move 2 places forward
-                moves.add(new int[]{row - 1, col});
                 moves.add(new int[]{row - 2, col});
-            } else {
-                //can move 1 place forward
-                moves.add(new int[]{row - 1, col});
             }
+            moves.add(new int[]{row - 1, col});
+
             moves.add(new int[]{row - 1, col + 1});
             moves.add(new int[]{row - 1, col - 1});
         } else {
             //if player is black
             if (row == 1) {
                 //can move 2 places forward
-                moves.add(new int[]{row + 1, col});
                 moves.add(new int[]{row + 2, col});
-            } else {
-                //can move 1 place forward
-                moves.add(new int[]{row + 1, col});
             }
+            moves.add(new int[]{row + 1, col});
             moves.add(new int[]{row + 1, col + 1});
             moves.add(new int[]{row + 1, col - 1});
         }

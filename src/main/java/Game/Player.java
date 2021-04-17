@@ -1,7 +1,7 @@
 package Game;
 
 public class Player {
-    private char colour;
+    protected char colour;
     private Piece selectedPiece = null;
     private Piece selectedLocation;
     private boolean isInCheck = false;

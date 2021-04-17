@@ -1,21 +1,14 @@
 package PieceType;
 
-import Game.Board;
 import Game.Piece;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-//package PieceType;
-//
-//import Game.Piece;
-//
-//import java.util.ArrayList;
-//
-//
 public class Bishop extends Piece {
+
     public Bishop(char label, int[] location) {
-        super(label, location);
+        super(label, location, 30);
     }
 
     @Override
@@ -24,7 +17,7 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public ArrayList<int[]> generateMovesForPiece(Piece[][] board, boolean isInCheck) {
+    public ArrayList<int[]> generateMoves(Piece[][] board, boolean isInCheck) {
         Piece[][] boardArray = Arrays.stream(board).map(Piece[]::clone).toArray(Piece[][]::new);
         ArrayList<int[]> moves = new ArrayList<>();
         ArrayList<int[]> movesUpRight = new ArrayList<>();

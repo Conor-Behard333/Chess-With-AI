@@ -1,9 +1,10 @@
 package Game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ChessEngine {
-    private Player[] players = {new Player('w'), new Player('b')};
+    private Player[] players = {new Player('w'), new AI('b')};
     private Player currentPlayer = players[0];
     private Board board = new Board();
 
@@ -43,7 +44,12 @@ public class ChessEngine {
     public void endTurn() {
         currentPlayer.setSelectedPiece(null);
         if (currentPlayer.getColour() == 'w') {
-            currentPlayer = players[1];
+            //AI's turn
+//            currentPlayer = players[1];
+            board = ((AI) players[1]).playTurn(board);
+            if (board == null) {
+                newGame();
+            }
         } else {
             currentPlayer = players[0];
         }
@@ -66,7 +72,7 @@ public class ChessEngine {
 
     public void newGame() {
         board = new Board();
-        players = new Player[]{new Player('w'), new Player('b')};
+        players = new Player[]{new Player('w'), new AI('b')};
         currentPlayer = players[0];
     }
 }

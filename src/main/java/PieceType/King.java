@@ -1,6 +1,5 @@
 package PieceType;
 
-import Game.Board;
 import Game.Piece;
 
 import java.util.ArrayList;
@@ -8,7 +7,7 @@ import java.util.Arrays;
 
 public class King extends Piece {
     public King(char colour, int[] location) {
-        super(colour, location);
+        super(colour, location, 900);
     }
 
     @Override
@@ -17,7 +16,7 @@ public class King extends Piece {
     }
 
     @Override
-    public ArrayList<int[]> generateMovesForPiece(Piece[][] board, boolean isInCheck) {
+    public ArrayList<int[]> generateMoves(Piece[][] board, boolean isInCheck) {
         Piece[][] boardArray = Arrays.stream(board).map(Piece[]::clone).toArray(Piece[][]::new);
         ArrayList<int[]> moves = new ArrayList<>();
 
