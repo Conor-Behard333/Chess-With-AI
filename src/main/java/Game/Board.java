@@ -105,7 +105,6 @@ public class Board {
             count = 0;
         }
         currentState = newState.toString();
-        System.out.println(newState);
     }
 
     public static boolean isInCheck(char playerColour, Piece[][] board) {

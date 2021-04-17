@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -37,11 +39,10 @@ public class ChessInterface extends Application {
         Group board = updateBoard();
         Line border = getBorder();
         Group window = new Group();
-
         window.getChildren().addAll(board, border, playerTurn);
 
         Scene scene = new Scene(window, width, height);
-
+        scene.setFill(Color.web("cebb9e", 1));
         this.stage.setTitle("Chess");
         this.stage.getIcons().add(new Image("https://icons.iconarchive.com/icons/blackvariant/button-ui-system-apps/1024/Chess-icon.png"));
         this.stage.setResizable(false);
@@ -151,13 +152,10 @@ public class ChessInterface extends Application {
 
         char pieceColour = Piece.getColourOfLabel(label, new int[]{row, col});
         Player currentPlayer = chessEngine.getCurrentPlayer();
-        System.out.println(currentPlayer.getColour());
-        System.out.println(currentPlayer.isInCheck());
         //check if the user has already selected a piece or they are selecting a new piece
         if (currentPlayer.getSelectedPiece() == null || (pieceColour == currentPlayer.getColour() && !Piece.isEmptyPiece(label))) {
             //check if this is a valid piece to select
             if (pieceColour == currentPlayer.getColour() && !Piece.isEmptyPiece(label)) {
-                System.out.println("You selected a piece");
                 currentPlayer.setSelectedPiece(chessEngine.getPiece(row, col));
             }
         } else {
@@ -170,7 +168,6 @@ public class ChessInterface extends Application {
                 }
             }
             for (int[] move : moves) {
-                System.out.println(Arrays.toString(move));
                 //if the location is in the valid move list then move the piece and end turn
                 if (move[0] == row && move[1] == col) {
                     //move piece
